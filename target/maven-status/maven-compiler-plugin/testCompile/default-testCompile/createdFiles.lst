@@ -1,0 +1,15 @@
+com/hse/bank/command/CommandTest.class
+com/hse/bank/proxy/FinanceDataProxyTest.class
+com/hse/bank/facade/FinanceFacadeTest.class
+com/hse/bank/util/InputUtilTest.class
+com/hse/bank/domain/BankAccountTest.class
+com/hse/bank/visitor/ExportVisitorTest.class
+com/hse/bank/domain/OperationTest.class
+com/hse/bank/AppTest.class
+com/hse/bank/AppIntegrationTest.class
+com/hse/bank/templatemethod/DataImporterTest.class
+com/hse/bank/factory/DomainFactoryTest.class
+com/hse/bank/facade/OperationFacadeTest.class
+com/hse/bank/domain/CategoryTest.class
+com/hse/bank/facade/BankAccountFacadeTest.class
+com/hse/bank/facade/CategoryFacadeTest.class

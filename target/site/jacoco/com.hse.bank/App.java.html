@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">KPO1</a> &gt; <a href="index.source.html" class="el_package">com.hse.bank</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package com.hse.bank;
+
+import com.hse.bank.command.CreateAccountCommand;
+import com.hse.bank.command.CreateCategoryCommand;
+import com.hse.bank.command.CreateOperationCommand;
+import com.hse.bank.command.TimeMeasuredCommandDecorator;
+import com.hse.bank.domain.Category;
+import com.hse.bank.domain.Operation;
+import com.hse.bank.facade.BankAccountFacade;
+import com.hse.bank.facade.CategoryFacade;
+import com.hse.bank.facade.OperationFacade;
+import com.hse.bank.facade.FinanceFacade;
+import com.hse.bank.util.InputUtil;
+import java.time.LocalDate;
+
+<span class="nc" id="L16">public class App {</span>
+    public static void main(String[] args) {
+<span class="fc" id="L18">        BankAccountFacade accountFacade = new BankAccountFacade();</span>
+<span class="fc" id="L19">        CategoryFacade categoryFacade = new CategoryFacade();</span>
+<span class="fc" id="L20">        OperationFacade operationFacade = new OperationFacade();</span>
+<span class="fc" id="L21">        FinanceFacade financeFacade = new FinanceFacade(accountFacade, categoryFacade, operationFacade);</span>
+        while (true) {
+<span class="fc" id="L23">            System.out.println(&quot;\nМеню:&quot;);</span>
+<span class="fc" id="L24">            System.out.println(&quot;1. Создать счет&quot;);</span>
+<span class="fc" id="L25">            System.out.println(&quot;2. Создать категорию&quot;);</span>
+<span class="fc" id="L26">            System.out.println(&quot;3. Создать операцию&quot;);</span>
+<span class="fc" id="L27">            System.out.println(&quot;4. Аналитика: разница доходов и расходов&quot;);</span>
+<span class="fc" id="L28">            System.out.println(&quot;5. Группировка операций по категории&quot;);</span>
+<span class="fc" id="L29">            System.out.println(&quot;0. Выход&quot;);</span>
+<span class="fc" id="L30">            int choice = InputUtil.readInt(&quot;Выберите опцию: &quot;);</span>
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (choice == 0) {</span>
+<span class="fc" id="L33">                break;</span>
+            }
+
+<span class="fc bfc" id="L36" title="All 6 branches covered.">            switch (choice) {</span>
+                case 1: {
+<span class="fc" id="L38">                    String name = InputUtil.readString(&quot;Введите название счета: &quot;);</span>
+<span class="fc" id="L39">                    double balance = InputUtil.readDouble(&quot;Введите начальный баланс: &quot;);</span>
+<span class="fc" id="L40">                    TimeMeasuredCommandDecorator cmd = new TimeMeasuredCommandDecorator(</span>
+                            new CreateAccountCommand(accountFacade, name, balance));
+<span class="fc" id="L42">                    cmd.execute();</span>
+<span class="fc" id="L43">                    break;</span>
+                }
+                case 2: {
+<span class="fc" id="L46">                    System.out.println(&quot;Доступные типы: 1 - INCOME, 2 - EXPENSE&quot;);</span>
+<span class="fc" id="L47">                    int typeChoice = InputUtil.readInt(&quot;Выберите тип категории: &quot;);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">                    Category.CategoryType type = (typeChoice == 1) ? Category.CategoryType.INCOME</span>
+<span class="pc" id="L49">                            : Category.CategoryType.EXPENSE;</span>
+<span class="fc" id="L50">                    String name = InputUtil.readString(&quot;Введите название категории: &quot;);</span>
+<span class="fc" id="L51">                    TimeMeasuredCommandDecorator cmd = new TimeMeasuredCommandDecorator(</span>
+                            new CreateCategoryCommand(categoryFacade, type, name));
+<span class="fc" id="L53">                    cmd.execute();</span>
+<span class="fc" id="L54">                    break;</span>
+                }
+                case 3: {
+<span class="fc" id="L57">                    System.out.println(&quot;Доступные типы: 1 - INCOME, 2 - EXPENSE&quot;);</span>
+<span class="fc" id="L58">                    int typeChoice = InputUtil.readInt(&quot;Выберите тип операции: &quot;);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                    Operation.OperationType type = (typeChoice == 1) ? Operation.OperationType.INCOME</span>
+<span class="pc" id="L60">                            : Operation.OperationType.EXPENSE;</span>
+<span class="fc" id="L61">                    String accountId = InputUtil.readString(&quot;Введите id счета: &quot;);</span>
+<span class="fc" id="L62">                    double amount = InputUtil.readDouble(&quot;Введите сумму операции: &quot;);</span>
+<span class="fc" id="L63">                    String dateInput = InputUtil.readString(&quot;Введите дату (YYYY-MM-DD): &quot;);</span>
+<span class="fc" id="L64">                    LocalDate date = LocalDate.parse(dateInput);</span>
+<span class="fc" id="L65">                    String description = InputUtil.readString(&quot;Введите описание (можно оставить пустым): &quot;);</span>
+<span class="fc" id="L66">                    String categoryId = InputUtil.readString(&quot;Введите id категории: &quot;);</span>
+<span class="fc" id="L67">                    TimeMeasuredCommandDecorator cmd = new TimeMeasuredCommandDecorator(new CreateOperationCommand(</span>
+                            operationFacade, type, accountId, amount, date, description, categoryId));
+<span class="fc" id="L69">                    cmd.execute();</span>
+<span class="fc" id="L70">                    break;</span>
+                }
+                case 4: {
+<span class="fc" id="L73">                    String startInput = InputUtil.readString(&quot;Введите дату начала (YYYY-MM-DD): &quot;);</span>
+<span class="fc" id="L74">                    String endInput = InputUtil.readString(&quot;Введите дату окончания (YYYY-MM-DD): &quot;);</span>
+<span class="fc" id="L75">                    LocalDate start = LocalDate.parse(startInput);</span>
+<span class="fc" id="L76">                    LocalDate end = LocalDate.parse(endInput);</span>
+<span class="fc" id="L77">                    double diff = financeFacade.getIncomeExpenseDifference(start, end);</span>
+<span class="fc" id="L78">                    System.out.println(&quot;Разница доходов и расходов: &quot; + diff);</span>
+<span class="fc" id="L79">                    break;</span>
+                }
+                case 5: {
+<span class="fc" id="L82">                    System.out.println(&quot;Доступные типы: 1 - INCOME, 2 - EXPENSE&quot;);</span>
+<span class="fc" id="L83">                    int typeChoice = InputUtil.readInt(&quot;Выберите тип операции: &quot;);</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                    Operation.OperationType type = (typeChoice == 1) ? Operation.OperationType.INCOME</span>
+<span class="pc" id="L85">                            : Operation.OperationType.EXPENSE;</span>
+<span class="fc" id="L86">                    var grouping = financeFacade.groupOperationsByCategory(type);</span>
+<span class="fc" id="L87">                    grouping.forEach((cat, sum) -&gt; System.out.println(&quot;Категория id: &quot; + cat + &quot; -&gt; Сумма: &quot; + sum));</span>
+<span class="fc" id="L88">                    break;</span>
+                }
+                default:
+<span class="fc" id="L91">                    System.out.println(&quot;Неверный выбор. Попробуйте снова.&quot;);</span>
+            }
+<span class="fc" id="L93">        }</span>
+<span class="fc" id="L94">        System.out.println(&quot;Выход из приложения.&quot;);</span>
+<span class="fc" id="L95">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

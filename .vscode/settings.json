@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        "com/hse/bank/factory",
+        "com/hse/bank/facade",
+        "com/hse/bank/domain",
+        "com"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
