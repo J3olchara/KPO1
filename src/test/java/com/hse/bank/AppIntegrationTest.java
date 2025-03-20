@@ -53,7 +53,6 @@ public class AppIntegrationTest {
         App.main(new String[0]);
 
         String output = outContent.toString();
-        // Проверяем, что вывод содержит ключевые сообщения
         assertTrue(output.contains("Создан"));
         assertTrue(output.contains("Создана категория"));
         assertTrue(output.contains("Создана операция"));
